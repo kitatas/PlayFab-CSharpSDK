@@ -50,7 +50,7 @@ namespace PlayFab
             return error.GenerateErrorReport();
         }
 
-#if NET45 || NETSTANDARD2_0
+#if NET45 || NETSTANDARD2_0 || UNITY_EDITOR || UNITY_STANDALONE
         [ThreadStatic]
         private static StringBuilder _sb;
         /// <summary>
