@@ -452,6 +452,7 @@ namespace PlayFab
         /// <summary>
         /// Inform the matchmaker that a Game Server Instance is removed.
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<DeregisterGameResponse>> DeregisterGameAsync(DeregisterGameRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -1957,6 +1958,58 @@ namespace PlayFab
         }
 
         /// <summary>
+        /// Links the Nintendo account associated with the token to the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<EmptyResult>> LinkNintendoServiceAccountAsync(LinkNintendoServiceAccountRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/LinkNintendoServiceAccount", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<EmptyResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<EmptyResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<EmptyResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Links the NintendoSwitchDeviceId to the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<LinkNintendoSwitchDeviceIdResult>> LinkNintendoSwitchDeviceIdAsync(LinkNintendoSwitchDeviceIdRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/LinkNintendoSwitchDeviceId", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<LinkNintendoSwitchDeviceIdResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<LinkNintendoSwitchDeviceIdResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<LinkNintendoSwitchDeviceIdResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
         /// Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account
         /// </summary>
         public async Task<PlayFabResult<LinkPSNAccountResult>> LinkPSNAccountAsync(LinkPSNAccountRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -2006,6 +2059,32 @@ namespace PlayFab
             var result = resultData.data;
 
             return new PlayFabResult<LinkServerCustomIdResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Links the Steam account associated with the provided Steam ID to the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<LinkSteamIdResult>> LinkSteamIdAsync(LinkSteamIdRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/LinkSteamId", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<LinkSteamIdResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<LinkSteamIdResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<LinkSteamIdResult> { Result = result, CustomData = customData };
         }
 
         /// <summary>
@@ -2249,6 +2328,7 @@ namespace PlayFab
         /// <summary>
         /// Informs the PlayFab match-making service that the user specified has left the Game Server Instance
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<NotifyMatchmakerPlayerLeftResult>> NotifyMatchmakerPlayerLeftAsync(NotifyMatchmakerPlayerLeftRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2302,6 +2382,7 @@ namespace PlayFab
         /// <summary>
         /// Validates a Game Server session ticket and returns details about the user
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<RedeemMatchmakerTicketResult>> RedeemMatchmakerTicketAsync(RedeemMatchmakerTicketRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2328,6 +2409,7 @@ namespace PlayFab
         /// <summary>
         /// Set the state of the indicated Game Server Instance. Also update the heartbeat for the instance.
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<RefreshGameServerInstanceHeartbeatResult>> RefreshGameServerInstanceHeartbeatAsync(RefreshGameServerInstanceHeartbeatRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2354,6 +2436,7 @@ namespace PlayFab
         /// <summary>
         /// Inform the matchmaker that a new Game Server Instance is added.
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<RegisterGameResponse>> RegisterGameAsync(RegisterGameRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2777,6 +2860,7 @@ namespace PlayFab
         /// <summary>
         /// Sets the custom data of the indicated Game Server Instance
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<SetGameServerInstanceDataResult>> SetGameServerInstanceDataAsync(SetGameServerInstanceDataRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2803,6 +2887,7 @@ namespace PlayFab
         /// <summary>
         /// Set the state of the indicated Game Server Instance.
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<SetGameServerInstanceStateResult>> SetGameServerInstanceStateAsync(SetGameServerInstanceStateRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -2829,6 +2914,7 @@ namespace PlayFab
         /// <summary>
         /// Set custom tags for the specified Game Server Instance
         /// </summary>
+        [Obsolete("No longer available", false)]
         public async Task<PlayFabResult<SetGameServerInstanceTagsResult>> SetGameServerInstanceTagsAsync(SetGameServerInstanceTagsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -3012,7 +3098,59 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Unlinks the related PSN account from the user's PlayFab account
+        /// Unlinks the related Nintendo account from the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<EmptyResponse>> UnlinkNintendoServiceAccountAsync(UnlinkNintendoServiceAccountRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/UnlinkNintendoServiceAccount", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<EmptyResponse> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<EmptyResponse>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<EmptyResponse> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<UnlinkNintendoSwitchDeviceIdResult>> UnlinkNintendoSwitchDeviceIdAsync(UnlinkNintendoSwitchDeviceIdRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/UnlinkNintendoSwitchDeviceId", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<UnlinkNintendoSwitchDeviceIdResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<UnlinkNintendoSwitchDeviceIdResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<UnlinkNintendoSwitchDeviceIdResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Unlinks the related PlayStation :tm: Network account from the user's PlayFab account
         /// </summary>
         public async Task<PlayFabResult<UnlinkPSNAccountResult>> UnlinkPSNAccountAsync(UnlinkPSNAccountRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3061,6 +3199,32 @@ namespace PlayFab
             var result = resultData.data;
 
             return new PlayFabResult<UnlinkServerCustomIdResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Unlinks the Steam account associated with the provided Steam ID to the user's PlayFab account
+        /// </summary>
+        public async Task<PlayFabResult<UnlinkSteamIdResult>> UnlinkSteamIdAsync(UnlinkSteamIdRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? authenticationContext;
+            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/UnlinkSteamId", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders, requestSettings);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<UnlinkSteamIdResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<UnlinkSteamIdResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<UnlinkSteamIdResult> { Result = result, CustomData = customData };
         }
 
         /// <summary>

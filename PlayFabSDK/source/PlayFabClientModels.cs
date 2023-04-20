@@ -693,6 +693,7 @@ namespace PlayFab.ClientModels
     /// set defined by Includes rules and then remove collections that matches the Excludes rules. A collection is considered
     /// matching a rule if the rule describes a subset of the collection.
     /// </summary>
+    [Obsolete("No longer available", false)]
     public class CollectionFilter
     {
         /// <summary>
@@ -861,7 +862,7 @@ namespace PlayFab.ClientModels
         public Dictionary<string,string> CustomTags ;
 
         /// <summary>
-        /// Id of the PSN service label to consume entitlements from
+        /// Id of the PlayStation :tm: Network service label to consume entitlements from
         /// </summary>
         public int ServiceLabel ;
 
@@ -927,6 +928,7 @@ namespace PlayFab.ClientModels
     /// <summary>
     /// A data container
     /// </summary>
+    [Obsolete("No longer available", false)]
     public class Container_Dictionary_String_String
     {
         /// <summary>
@@ -1388,6 +1390,7 @@ namespace PlayFab.ClientModels
         ZWD
     }
 
+    [Obsolete("No longer available", false)]
     public class CurrentGamesRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -1417,6 +1420,7 @@ namespace PlayFab.ClientModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class CurrentGamesResult : PlayFabResultCommon
     {
         /// <summary>
@@ -1598,6 +1602,16 @@ namespace PlayFab.ClientModels
 
     }
 
+    public enum ExternalFriendSources
+    {
+        None,
+        Steam,
+        Facebook,
+        Xbox,
+        Psn,
+        All
+    }
+
     public class FacebookInstantGamesPlayFabIdPair
     {
         /// <summary>
@@ -1649,7 +1663,8 @@ namespace PlayFab.ClientModels
         public PlayerProfileModel Profile ;
 
         /// <summary>
-        /// Available PSN information, if the user and PlayFab friend are both connected to PSN.
+        /// Available PlayStation :tm: Network information, if the user and PlayFab friend are both connected to PlayStation :tm:
+        /// Network.
         /// </summary>
         public UserPsnInfo PSNInfo ;
 
@@ -1694,6 +1709,7 @@ namespace PlayFab.ClientModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class GameInfo
     {
         /// <summary>
@@ -1784,6 +1800,7 @@ namespace PlayFab.ClientModels
         Closed
     }
 
+    [Obsolete("No longer available", false)]
     public class GameServerRegionsRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -1799,6 +1816,7 @@ namespace PlayFab.ClientModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class GameServerRegionsResult : PlayFabResultCommon
     {
         /// <summary>
@@ -2031,11 +2049,6 @@ namespace PlayFab.ClientModels
     public class GetCharacterLeaderboardRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Optional character type on which to filter the leaderboard entries.
-        /// </summary>
-        public string CharacterType ;
-
-        /// <summary>
         /// Maximum number of entries to retrieve. Default 10, maximum 100.
         /// </summary>
         public int? MaxResultsCount ;
@@ -2122,13 +2135,21 @@ namespace PlayFab.ClientModels
         public Dictionary<string,string> CustomTags ;
 
         /// <summary>
+        /// Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+        /// comma-separated list of platforms.
+        /// </summary>
+        public ExternalFriendSources? ExternalPlatformFriends ;
+
+        /// <summary>
         /// Indicates whether Facebook friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeFacebookFriends ;
 
         /// <summary>
         /// Indicates whether Steam service friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeSteamFriends ;
 
         /// <summary>
@@ -2198,13 +2219,21 @@ namespace PlayFab.ClientModels
         public Dictionary<string,string> CustomTags ;
 
         /// <summary>
+        /// Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+        /// comma-separated list of platforms.
+        /// </summary>
+        public ExternalFriendSources? ExternalPlatformFriends ;
+
+        /// <summary>
         /// Indicates whether Facebook friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeFacebookFriends ;
 
         /// <summary>
         /// Indicates whether Steam service friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeSteamFriends ;
 
         /// <summary>
@@ -2249,13 +2278,21 @@ namespace PlayFab.ClientModels
         public Dictionary<string,string> CustomTags ;
 
         /// <summary>
+        /// Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+        /// comma-separated list of platforms.
+        /// </summary>
+        public ExternalFriendSources? ExternalPlatformFriends ;
+
+        /// <summary>
         /// Indicates whether Facebook friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeFacebookFriends ;
 
         /// <summary>
         /// Indicates whether Steam service friends should be included in the response. Default is true.
         /// </summary>
+        [Obsolete("Use 'ExternalPlatformFriends' instead", true)]
         public bool? IncludeSteamFriends ;
 
         /// <summary>
@@ -2293,11 +2330,6 @@ namespace PlayFab.ClientModels
         /// Unique PlayFab assigned ID for a specific character on which to center the leaderboard.
         /// </summary>
         public string CharacterId ;
-
-        /// <summary>
-        /// Optional character type on which to filter the leaderboard entries.
-        /// </summary>
-        public string CharacterType ;
 
         /// <summary>
         /// Maximum number of entries to retrieve. Default 10, maximum 100.
@@ -2863,7 +2895,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromFacebookIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
+        /// in length.
         /// </summary>
         public List<string> FacebookIDs ;
 
@@ -2884,7 +2917,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromFacebookInstantGamesIdsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 25 in length.
         /// </summary>
         public List<string> FacebookInstantGamesIds ;
 
@@ -2906,6 +2940,7 @@ namespace PlayFab.ClientModels
     {
         /// <summary>
         /// Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers.
+        /// The array cannot exceed 2,000 in length.
         /// </summary>
         public List<string> GameCenterIDs ;
 
@@ -2948,7 +2983,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromGoogleIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+        /// Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 2,000 in length.
         /// </summary>
         public List<string> GoogleIDs ;
 
@@ -2970,6 +3006,7 @@ namespace PlayFab.ClientModels
     {
         /// <summary>
         /// Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+        /// The array cannot exceed 2,000 in length.
         /// </summary>
         public List<string> GooglePlayGamesPlayerIDs ;
 
@@ -2990,7 +3027,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromKongregateIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers.
+        /// Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers. The
+        /// array cannot exceed 2,000 in length.
         /// </summary>
         public List<string> KongregateIDs ;
 
@@ -3011,7 +3049,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromNintendoServiceAccountIdsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 2,000 in length.
         /// </summary>
         public List<string> NintendoAccountIds ;
 
@@ -3032,7 +3071,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 2,000 in length.
         /// </summary>
         public List<string> NintendoSwitchDeviceIds ;
 
@@ -3053,24 +3093,25 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromPSNAccountIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Id of the PSN issuer environment. If null, defaults to production environment.
+        /// Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         /// </summary>
         public int? IssuerId ;
 
         /// <summary>
-        /// Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 2,000 in length.
         /// </summary>
         public List<string> PSNAccountIDs ;
 
     }
 
     /// <summary>
-    /// For PlayStation Network identifiers which have not been linked to PlayFab accounts, null will be returned.
+    /// For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned.
     /// </summary>
     public class GetPlayFabIDsFromPSNAccountIDsResult : PlayFabResultCommon
     {
         /// <summary>
-        /// Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        /// Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers.
         /// </summary>
         public List<PSNAccountPlayFabIdPair> Data ;
 
@@ -3079,7 +3120,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromSteamIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers.
+        /// Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
+        /// cannot exceed 2,000 in length.
         /// </summary>
         public List<string> SteamStringIDs ;
 
@@ -3100,7 +3142,8 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromTwitchIDsRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers.
+        /// Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
+        /// exceed 2,000 in length.
         /// </summary>
         public List<string> TwitchIds ;
 
@@ -3126,7 +3169,8 @@ namespace PlayFab.ClientModels
         public string Sandbox ;
 
         /// <summary>
-        /// Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers.
+        /// Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+        /// exceed 2,000 in length.
         /// </summary>
         public List<string> XboxLiveAccountIDs ;
 
@@ -3138,7 +3182,7 @@ namespace PlayFab.ClientModels
     public class GetPlayFabIDsFromXboxLiveIDsResult : PlayFabResultCommon
     {
         /// <summary>
-        /// Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        /// Mapping of Xbox Live identifiers to PlayFab identifiers.
         /// </summary>
         public List<XboxLiveAccountPlayFabIdPair> Data ;
 
@@ -4116,7 +4160,7 @@ namespace PlayFab.ClientModels
     public class LinkPSNAccountRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Authentication code provided by the PlayStation Network.
+        /// Authentication code provided by the PlayStation :tm: Network.
         /// </summary>
         public string AuthCode ;
 
@@ -4131,12 +4175,12 @@ namespace PlayFab.ClientModels
         public bool? ForceLink ;
 
         /// <summary>
-        /// Id of the PSN issuer environment. If null, defaults to production environment.
+        /// Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         /// </summary>
         public int? IssuerId ;
 
         /// <summary>
-        /// Redirect URI supplied to PSN when requesting an auth code
+        /// Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         /// </summary>
         public string RedirectUri ;
 
@@ -4425,7 +4469,8 @@ namespace PlayFab.ClientModels
 
         /// <summary>
         /// The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
-        /// credential payload.
+        /// credential payload. If you choose to ignore the expiration date for identity tokens, you will receive an NotAuthorized
+        /// error if Apple rotates the signing key. In this case, users have to login to provide a fresh identity token.
         /// </summary>
         public string IdentityToken ;
 
@@ -4630,7 +4675,8 @@ namespace PlayFab.ClientModels
     /// this is the first time a user has signed in with Game Center and CreateAccount is set to true, a new PlayFab account
     /// will be created and linked to the Game Center identifier. In this case, no email or username will be associated with the
     /// PlayFab account. Otherwise, if no PlayFab account is linked to the Game Center account, an error indicating this will be
-    /// returned, so that the title can guide the user through creation of a PlayFab account.
+    /// returned, so that the title can guide the user through creation of a PlayFab account. If an invalid iOS Game Center
+    /// player identifier is used, an error indicating this will be returned.
     /// </summary>
     public class LoginWithGameCenterRequest : PlayFabRequestCommon
     {
@@ -4741,6 +4787,11 @@ namespace PlayFab.ClientModels
         /// (https://developers.google.com/identity/sign-in/android/offline-access) Google client API.
         /// </summary>
         public string ServerAuthCode ;
+
+        /// <summary>
+        /// Optional boolean to opt out of setting the MPA email when creating a Google account, defaults to true.
+        /// </summary>
+        public bool? SetEmail ;
 
         /// <summary>
         /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
@@ -5082,15 +5133,16 @@ namespace PlayFab.ClientModels
     }
 
     /// <summary>
-    /// If this is the first time a user has signed in with the PlayStation Network account and CreateAccount is set to true, a
-    /// new PlayFab account will be created and linked to the PSN account. In this case, no email or username will be associated
-    /// with the PlayFab account. Otherwise, if no PlayFab account is linked to the PSN account, an error indicating this will
-    /// be returned, so that the title can guide the user through creation of a PlayFab account.
+    /// If this is the first time a user has signed in with the PlayStation :tm: Network account and CreateAccount is set to
+    /// true, a new PlayFab account will be created and linked to the PlayStation :tm: Network account. In this case, no email
+    /// or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PlayStation
+    /// :tm: Network account, an error indicating this will be returned, so that the title can guide the user through creation
+    /// of a PlayFab account.
     /// </summary>
     public class LoginWithPSNRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Auth code provided by the PSN OAuth provider.
+        /// Auth code provided by the PlayStation :tm: Network OAuth provider.
         /// </summary>
         public string AuthCode ;
 
@@ -5115,7 +5167,7 @@ namespace PlayFab.ClientModels
         public GetPlayerCombinedInfoRequestParams InfoRequestParameters ;
 
         /// <summary>
-        /// Id of the PSN issuer environment. If null, defaults to production environment.
+        /// Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         /// </summary>
         public int? IssuerId ;
 
@@ -5125,7 +5177,7 @@ namespace PlayFab.ClientModels
         public string PlayerSecret ;
 
         /// <summary>
-        /// Redirect URI supplied to PSN when requesting an auth code
+        /// Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         /// </summary>
         public string RedirectUri ;
 
@@ -5300,6 +5352,7 @@ namespace PlayFab.ClientModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class MatchmakeRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -5349,6 +5402,7 @@ namespace PlayFab.ClientModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class MatchmakeResult : PlayFabResultCommon
     {
         /// <summary>
@@ -5937,12 +5991,12 @@ namespace PlayFab.ClientModels
     public class PlayStation5Payload
     {
         /// <summary>
-        /// An optional list of entitlement ids to query against PSN
+        /// An optional list of entitlement ids to query against PlayStation :tm: Network
         /// </summary>
         public List<string> Ids ;
 
         /// <summary>
-        /// Id of the PSN service label to consume entitlements from
+        /// Id of the PlayStation :tm: Network service label to consume entitlements from
         /// </summary>
         public string ServiceLabel ;
 
@@ -5951,12 +6005,13 @@ namespace PlayFab.ClientModels
     public class PSNAccountPlayFabIdPair
     {
         /// <summary>
-        /// Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation Network identifier.
+        /// Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation :tm: Network
+        /// identifier.
         /// </summary>
         public string PlayFabId ;
 
         /// <summary>
-        /// Unique PlayStation Network identifier for a user.
+        /// Unique PlayStation :tm: Network identifier for a user.
         /// </summary>
         public string PSNAccountId ;
 
@@ -6102,17 +6157,17 @@ namespace PlayFab.ClientModels
     public class RefreshPSNAuthTokenRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Auth code returned by PSN OAuth system.
+        /// Auth code returned by PlayStation :tm: Network OAuth system.
         /// </summary>
         public string AuthCode ;
 
         /// <summary>
-        /// Id of the PSN issuer environment. If null, defaults to production environment.
+        /// Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         /// </summary>
         public int? IssuerId ;
 
         /// <summary>
-        /// Redirect URI supplied to PSN when requesting an auth code
+        /// Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         /// </summary>
         public string RedirectUri ;
 
@@ -6129,6 +6184,7 @@ namespace PlayFab.ClientModels
         Australia
     }
 
+    [Obsolete("No longer available", false)]
     public class RegionInfo
     {
         /// <summary>
@@ -7730,7 +7786,7 @@ namespace PlayFab.ClientModels
         public UserPrivateAccountInfo PrivateInfo ;
 
         /// <summary>
-        /// User PSN account information, if a PSN account has been linked
+        /// User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         /// </summary>
         public UserPsnInfo PsnInfo ;
 
@@ -7998,12 +8054,12 @@ namespace PlayFab.ClientModels
     public class UserPsnInfo
     {
         /// <summary>
-        /// PSN account ID
+        /// PlayStation :tm: Network account ID
         /// </summary>
         public string PsnAccountId ;
 
         /// <summary>
-        /// PSN online ID
+        /// PlayStation :tm: Network online ID
         /// </summary>
         public string PsnOnlineId ;
 

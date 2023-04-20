@@ -379,11 +379,6 @@ namespace PlayFab.AdminModels
         public string IPAddress ;
 
         /// <summary>
-        /// MAC address to be banned. May affect multiple players.
-        /// </summary>
-        public string MACAddress ;
-
-        /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
         public string PlayFabId ;
@@ -641,6 +636,20 @@ namespace PlayFab.AdminModels
         /// The amount of the specified resource remaining.
         /// </summary>
         public int Amount ;
+
+    }
+
+    public class ChurnPredictionSegmentFilter
+    {
+        /// <summary>
+        /// Comparison
+        /// </summary>
+        public SegmentFilterComparison? Comparison ;
+
+        /// <summary>
+        /// RiskLevel
+        /// </summary>
+        public ChurnRiskLevel? RiskLevel ;
 
     }
 
@@ -1976,6 +1985,7 @@ namespace PlayFab.AdminModels
         FailedToProcess
     }
 
+    [Obsolete("No longer available", false)]
     public class GameModeInfo
     {
         /// <summary>
@@ -2536,7 +2546,21 @@ namespace PlayFab.AdminModels
         AutomationRuleAlreadyExists,
         AutomationRuleLimitExceeded,
         InvalidGooglePlayGamesServerAuthCode,
-        StorageAccountNotFound,
+        PlayStreamConnectionFailed,
+        InvalidEventContents,
+        InsightsV1Deprecated,
+        AnalysisSubscriptionNotFound,
+        AnalysisSubscriptionFailed,
+        AnalysisSubscriptionFoundAlready,
+        AnalysisSubscriptionManagementInvalidInput,
+        InvalidGameCenterId,
+        InvalidNintendoSwitchAccountId,
+        EntityAPIKeysNotSupported,
+        IpAddressBanned,
+        EntityLineageBanned,
+        NamespaceMismatch,
+        InvalidServiceConfiguration,
+        InvalidNamespaceMismatch,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -2625,6 +2649,7 @@ namespace PlayFab.AdminModels
         PartyVersionNotFound,
         MultiplayerServerBuildReferencedByMatchmakingQueue,
         MultiplayerServerBuildReferencedByBuildAlias,
+        MultiplayerServerBuildAliasReferencedByMatchmakingQueue,
         ExperimentationExperimentStopped,
         ExperimentationExperimentRunning,
         ExperimentationExperimentNotFound,
@@ -2664,6 +2689,7 @@ namespace PlayFab.AdminModels
         AsyncExportNotInFlight,
         AsyncExportNotFound,
         AsyncExportRateLimitExceeded,
+        AnalyticsSegmentCountOverLimit,
         SnapshotNotFound,
         InventoryApiNotImplemented,
         LobbyDoesNotExist,
@@ -2682,6 +2708,12 @@ namespace PlayFab.AdminModels
         EventSamplingInvalidEventNamespace,
         EventSamplingInvalidEventName,
         EventSamplingRatioNotFound,
+        TelemetryKeyNotFound,
+        TelemetryKeyInvalidName,
+        TelemetryKeyAlreadyExists,
+        TelemetryKeyInvalid,
+        TelemetryKeyCountOverLimit,
+        TelemetryKeyDeactivated,
         EventSinkConnectionInvalid,
         EventSinkConnectionUnauthorized,
         EventSinkRegionInvalid,
@@ -2910,6 +2942,7 @@ namespace PlayFab.AdminModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class GetMatchmakerGameInfoRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -2919,6 +2952,7 @@ namespace PlayFab.AdminModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class GetMatchmakerGameInfoResult : PlayFabResultCommon
     {
         /// <summary>
@@ -2989,6 +3023,7 @@ namespace PlayFab.AdminModels
     /// additional users, and by the PlayFab game server management service to determine when a new Game Server Host should be
     /// created in order to prevent excess load on existing Hosts.
     /// </summary>
+    [Obsolete("No longer available", false)]
     public class GetMatchmakerGameModesRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -2998,6 +3033,7 @@ namespace PlayFab.AdminModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class GetMatchmakerGameModesResult : PlayFabResultCommon
     {
         /// <summary>
@@ -3166,13 +3202,21 @@ namespace PlayFab.AdminModels
         public Dictionary<string,string> CustomTags ;
 
         /// <summary>
-        /// Maximum number of profiles to load. Default is 1,000. Maximum is 10,000.
+        /// If set to true, the profiles are loaded asynchronously and the response will include a continuation token and
+        /// approximate profile count until the first batch of profiles is loaded. Use this parameter to help avoid network
+        /// timeouts.
+        /// </summary>
+        public bool? GetProfilesAsync ;
+
+        /// <summary>
+        /// Maximum is 10,000. The value 0 will prevent loading any profiles and return only the count of profiles matching this
+        /// segment.
         /// </summary>
         public uint? MaxBatchSize ;
 
         /// <summary>
         /// Number of seconds to keep the continuation token active. After token expiration it is not possible to continue paging
-        /// results. Default is 300 (5 minutes). Maximum is 1,800 (30 minutes).
+        /// results. Default is 300 (5 minutes). Maximum is 5,400 (90 minutes).
         /// </summary>
         public uint? SecondsToLive ;
 
@@ -4352,6 +4396,7 @@ namespace PlayFab.AdminModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class ModifyServerBuildRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -4402,6 +4447,7 @@ namespace PlayFab.AdminModels
 
     }
 
+    [Obsolete("No longer available", false)]
     public class ModifyServerBuildResult : PlayFabResultCommon
     {
         /// <summary>
@@ -4700,6 +4746,11 @@ namespace PlayFab.AdminModels
         /// Banned until UTC Date. If permanent ban this is set for 20 years after the original ban date.
         /// </summary>
         public DateTime? BannedUntil ;
+
+        /// <summary>
+        /// The prediction of the player to churn within the next seven days.
+        /// </summary>
+        public ChurnRiskLevel? ChurnPrediction ;
 
         /// <summary>
         /// Array of contact email addresses associated with the player
@@ -5643,6 +5694,11 @@ namespace PlayFab.AdminModels
         public AllPlayersSegmentFilter AllPlayersFilter ;
 
         /// <summary>
+        /// Filter property for player churn risk level.
+        /// </summary>
+        public ChurnPredictionSegmentFilter ChurnPredictionFilter ;
+
+        /// <summary>
         /// Filter property for first login date.
         /// </summary>
         public FirstLoginDateSegmentFilter FirstLoginDateFilter ;
@@ -6435,11 +6491,6 @@ namespace PlayFab.AdminModels
     public class SetTitleDataAndOverridesRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags ;
-
-        /// <summary>
         /// List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
         /// create/update a key.
         /// </summary>
@@ -6457,19 +6508,11 @@ namespace PlayFab.AdminModels
     }
 
     /// <summary>
-    /// This API method is designed to store title specific values which can be read by the client. For example, a developer
-    /// could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
-    /// speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. This
-    /// operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it
-    /// already exists, the Value for that key will be overwritten with the new Value.
+    /// This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value.
+    /// If it already exists, the Value for that key will be overwritten with the new Value.
     /// </summary>
     public class SetTitleDataRequest : PlayFabRequestCommon
     {
-        /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags ;
-
         /// <summary>
         /// key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
         /// name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
@@ -6931,11 +6974,6 @@ namespace PlayFab.AdminModels
         /// The updated IP address for the ban. Null for no change.
         /// </summary>
         public string IPAddress ;
-
-        /// <summary>
-        /// The updated MAC address for the ban. Null for no change.
-        /// </summary>
-        public string MACAddress ;
 
         /// <summary>
         /// Whether to make this ban permanent. Set to true to make this ban permanent. This will not modify Active state.
@@ -7536,7 +7574,7 @@ namespace PlayFab.AdminModels
         public UserPrivateAccountInfo PrivateInfo ;
 
         /// <summary>
-        /// User PSN account information, if a PSN account has been linked
+        /// User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         /// </summary>
         public UserPsnInfo PsnInfo ;
 
@@ -7813,12 +7851,12 @@ namespace PlayFab.AdminModels
     public class UserPsnInfo
     {
         /// <summary>
-        /// PSN account ID
+        /// PlayStation :tm: Network account ID
         /// </summary>
         public string PsnAccountId ;
 
         /// <summary>
-        /// PSN online ID
+        /// PlayStation :tm: Network online ID
         /// </summary>
         public string PsnOnlineId ;
 

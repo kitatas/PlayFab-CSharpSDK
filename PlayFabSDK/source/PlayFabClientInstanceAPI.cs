@@ -814,6 +814,7 @@ namespace PlayFab
         /// <summary>
         /// Get details about all current running game servers matching the given parameters.
         /// </summary>
+        [Obsolete("Use 'MultiplayerServer/ListMultiplayerServers' instead", false)]
         public async Task<PlayFabResult<CurrentGamesResult>> GetCurrentGamesAsync(CurrentGamesRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -921,6 +922,7 @@ namespace PlayFab
         /// <summary>
         /// Get details about the regions hosting game servers matching the given parameters.
         /// </summary>
+        [Obsolete("Use 'MultiplayerServer/ListMultiplayerServers' instead", false)]
         public async Task<PlayFabResult<GameServerRegionsResult>> GetGameServerRegionsAsync(GameServerRegionsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -3056,6 +3058,7 @@ namespace PlayFab
         /// availabe set. In that case, the information on the game session will be returned, otherwise the Status returned will be
         /// GameNotFound.
         /// </summary>
+        [Obsolete("Use 'Match/CreateMatchmakingTicket' instead", false)]
         public async Task<PlayFabResult<MatchmakeResult>> MatchmakeAsync(MatchmakeRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
             await new PlayFabUtil.SynchronizationContextRemover();
@@ -3186,7 +3189,7 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token
+        /// Uses the supplied OAuth code to refresh the internally cached player PlayStation :tm: Network auth token
         /// </summary>
         public async Task<PlayFabResult<EmptyResponse>> RefreshPSNAuthTokenAsync(RefreshPSNAuthTokenRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3980,7 +3983,7 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Unlinks the related PSN :tm: account from the user's PlayFab account
+        /// Unlinks the related PlayStation :tm: Network account from the user's PlayFab account
         /// </summary>
         public async Task<PlayFabResult<UnlinkPSNAccountResult>> UnlinkPSNAccountAsync(UnlinkPSNAccountRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {

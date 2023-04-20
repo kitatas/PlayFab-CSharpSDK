@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>PlayFabAllSDK</RootNamespace>
     <AssemblyName>PlayFabAllSDK</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
 
     <PackageId>PlayFabAllSDK</PackageId>
-    <Version>1.133.220816</Version>
+    <Version>1.150.230403</Version>
     <Title>PlayFab CSharp Sdk</Title>
     <Authors>Microsoft</Authors>
     <Owners>Microsoft</Owners>
@@ -21,7 +21,7 @@
     <Company>PlayFab</Company>
     <Product>PlayFabSDK</Product>
     <PackageTags>PlayFab, Baas, Paas, JSON, REST, HTTP, SSL, API, cloud, liveops, game, gamedev, native</PackageTags>
-    <PackageReleaseNotes>https://docs.microsoft.com/gaming/playfab/release-notes#220816</PackageReleaseNotes>
+    <PackageReleaseNotes>https://docs.microsoft.com/gaming/playfab/release-notes#230403</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
     <AssemblyVersion>1</AssemblyVersion>
     <FileVersion>1</FileVersion>
@@ -43,6 +43,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="7.2.3" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="LICENSE" Pack="true" PackagePath="" />
