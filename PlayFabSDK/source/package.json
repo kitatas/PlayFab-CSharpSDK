@@ -1,7 +1,7 @@
 {
   "name": "com.kitatas.playfab-csharpsdk",
   "displayName": "PlayFab-CSharpSDK",
-  "version": "1.133.220816",
+  "version": "1.150",
   "unity": "2020.3",
   "description": "PlayFab SDK for C#.",
   "author": {
