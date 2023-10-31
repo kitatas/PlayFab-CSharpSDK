@@ -28,7 +28,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Increments the character's balance of the specified virtual currency by the stated amount
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Increments the character's balance of the specified virtual currency by the stated amount
         /// </summary>
         public static async Task<PlayFabResult<ModifyCharacterVirtualCurrencyResult>> AddCharacterVirtualCurrencyAsync(AddCharacterVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -169,7 +170,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Increments the user's balance of the specified virtual currency by the stated amount
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Increments the user's balance of the specified virtual currency by the stated amount
         /// </summary>
         public static async Task<PlayFabResult<ModifyUserVirtualCurrencyResult>> AddUserVirtualCurrencyAsync(AddUserVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -277,7 +279,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
+        /// inventory.
         /// </summary>
         public static async Task<PlayFabResult<ConsumeItemResult>> ConsumeItemAsync(ConsumeItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -444,36 +448,10 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Inform the matchmaker that a Game Server Instance is removed.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<DeregisterGameResponse>> DeregisterGameAsync(DeregisterGameRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/DeregisterGame", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<DeregisterGameResponse> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<DeregisterGameResponse>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<DeregisterGameResponse> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Returns the result of an evaluation of a Random Result Table - the ItemId from the game Catalog which would have been
-        /// added to the player inventory, if the Random Result Table were added via a Bundle or a call to UnlockContainer.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Returns the result of an evaluation of a Random Result Table - the ItemId from the game Catalog which would
+        /// have been added to the player inventory, if the Random Result Table were added via a Bundle or a call to
+        /// UnlockContainer.
         /// </summary>
         public static async Task<PlayFabResult<EvaluateRandomResultTableResult>> EvaluateRandomResultTableAsync(EvaluateRandomResultTableRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -584,7 +562,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
         /// </summary>
         public static async Task<PlayFabResult<GetCatalogItemsResult>> GetCatalogItemsAsync(GetCatalogItemsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -665,7 +644,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the specified character's current inventory of virtual goods
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the specified character's current inventory of virtual goods
         /// </summary>
         public static async Task<PlayFabResult<GetCharacterInventoryResult>> GetCharacterInventoryAsync(GetCharacterInventoryRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1438,8 +1418,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the configuration information for the specified random results tables for the title, including all ItemId
-        /// values and weights
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the configuration information for the specified random results tables for the title, including all
+        /// ItemId values and weights
         /// </summary>
         public static async Task<PlayFabResult<GetRandomResultTablesResult>> GetRandomResultTablesAsync(GetRandomResultTablesRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1522,7 +1503,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the set of items defined for the specified store, including all prices defined, for the specified player
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the set of items defined for the specified store, including all prices defined, for the specified
+        /// player
         /// </summary>
         public static async Task<PlayFabResult<GetStoreItemsResult>> GetStoreItemsAsync(GetStoreItemsServerRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1765,7 +1748,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the specified user's current inventory of virtual goods
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the specified user's current inventory of virtual goods
         /// </summary>
         public static async Task<PlayFabResult<GetUserInventoryResult>> GetUserInventoryAsync(GetUserInventoryRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1928,7 +1912,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Adds the specified items to the specified character's inventory
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Adds the specified items to the specified character's inventory
         /// </summary>
         public static async Task<PlayFabResult<GrantItemsToCharacterResult>> GrantItemsToCharacterAsync(GrantItemsToCharacterRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1955,7 +1940,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Adds the specified items to the specified user's inventory
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Adds the specified items to the specified user's inventory
         /// </summary>
         public static async Task<PlayFabResult<GrantItemsToUserResult>> GrantItemsToUserAsync(GrantItemsToUserRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1982,7 +1968,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Adds the specified items to the specified user inventories
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Adds the specified items to the specified user inventories
         /// </summary>
         public static async Task<PlayFabResult<GrantItemsToUsersResult>> GrantItemsToUsersAsync(GrantItemsToUsersRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2021,6 +2008,33 @@ namespace PlayFab
 
 
             var httpResult = await PlayFabHttp.DoPost("/Server/LinkNintendoServiceAccount", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<EmptyResult> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<EmptyResult>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<EmptyResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Links the Nintendo account associated with the Nintendo Service Account subject or id to the user's PlayFab account
+        /// </summary>
+        public static async Task<PlayFabResult<EmptyResult>> LinkNintendoServiceAccountSubjectAsync(LinkNintendoServiceAccountSubjectRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
+            var requestSettings = PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/LinkNintendoServiceAccountSubject", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
             if (httpResult is PlayFabError)
             {
                 var error = (PlayFabError)httpResult;
@@ -2087,6 +2101,33 @@ namespace PlayFab
             var result = resultData.data;
 
             return new PlayFabResult<LinkPSNAccountResult> { Result = result, CustomData = customData };
+        }
+
+        /// <summary>
+        /// Links the PlayStation :tm: Network account associated with the provided user id to the user's PlayFab account
+        /// </summary>
+        public static async Task<PlayFabResult<LinkPSNIdResponse>> LinkPSNIdAsync(LinkPSNIdRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            await new PlayFabUtil.SynchronizationContextRemover();
+
+            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
+            var requestSettings = PlayFabSettings.staticSettings;
+            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
+
+
+            var httpResult = await PlayFabHttp.DoPost("/Server/LinkPSNId", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
+            if (httpResult is PlayFabError)
+            {
+                var error = (PlayFabError)httpResult;
+                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
+                return new PlayFabResult<LinkPSNIdResponse> { Error = error, CustomData = customData };
+            }
+
+            var resultRawJson = (string)httpResult;
+            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<LinkPSNIdResponse>>(resultRawJson);
+            var result = resultData.data;
+
+            return new PlayFabResult<LinkPSNIdResponse> { Result = result, CustomData = customData };
         }
 
         /// <summary>
@@ -2283,7 +2324,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Modifies the number of remaining uses of a player's inventory item
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Modifies the number of remaining uses of a player's inventory item
         /// </summary>
         public static async Task<PlayFabResult<ModifyItemUsesResult>> ModifyItemUsesAsync(ModifyItemUsesRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2310,7 +2352,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Moves an item from a character's inventory into another of the users's character's inventory.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Moves an item from a character's inventory into another of the users's character's inventory.
         /// </summary>
         public static async Task<PlayFabResult<MoveItemToCharacterFromCharacterResult>> MoveItemToCharacterFromCharacterAsync(MoveItemToCharacterFromCharacterRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2337,7 +2380,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Moves an item from a user's inventory into their character's inventory.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Moves an item from a user's inventory into their character's inventory.
         /// </summary>
         public static async Task<PlayFabResult<MoveItemToCharacterFromUserResult>> MoveItemToCharacterFromUserAsync(MoveItemToCharacterFromUserRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2364,7 +2408,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Moves an item from a character's inventory into the owning user's inventory.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Moves an item from a character's inventory into the owning user's inventory.
         /// </summary>
         public static async Task<PlayFabResult<MoveItemToUserFromCharacterResult>> MoveItemToUserFromCharacterAsync(MoveItemToUserFromCharacterRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2391,35 +2436,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Informs the PlayFab match-making service that the user specified has left the Game Server Instance
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<NotifyMatchmakerPlayerLeftResult>> NotifyMatchmakerPlayerLeftAsync(NotifyMatchmakerPlayerLeftRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/NotifyMatchmakerPlayerLeft", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<NotifyMatchmakerPlayerLeftResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<NotifyMatchmakerPlayerLeftResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<NotifyMatchmakerPlayerLeftResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
         /// Economy->Catalogs tab in the PlayFab Game Manager.
         /// </summary>
         public static async Task<PlayFabResult<RedeemCouponResult>> RedeemCouponAsync(RedeemCouponRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -2444,90 +2462,6 @@ namespace PlayFab
             var result = resultData.data;
 
             return new PlayFabResult<RedeemCouponResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Validates a Game Server session ticket and returns details about the user
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<RedeemMatchmakerTicketResult>> RedeemMatchmakerTicketAsync(RedeemMatchmakerTicketRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/RedeemMatchmakerTicket", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<RedeemMatchmakerTicketResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<RedeemMatchmakerTicketResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<RedeemMatchmakerTicketResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Set the state of the indicated Game Server Instance. Also update the heartbeat for the instance.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<RefreshGameServerInstanceHeartbeatResult>> RefreshGameServerInstanceHeartbeatAsync(RefreshGameServerInstanceHeartbeatRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/RefreshGameServerInstanceHeartbeat", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<RefreshGameServerInstanceHeartbeatResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<RefreshGameServerInstanceHeartbeatResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<RefreshGameServerInstanceHeartbeatResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Inform the matchmaker that a new Game Server Instance is added.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<RegisterGameResponse>> RegisterGameAsync(RegisterGameRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/RegisterGame", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<RegisterGameResponse> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<RegisterGameResponse>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<RegisterGameResponse> { Result = result, CustomData = customData };
         }
 
         /// <summary>
@@ -2724,7 +2658,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Revokes access to an item in a user's inventory
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Revokes access to an item in a user's inventory
         /// </summary>
         public static async Task<PlayFabResult<RevokeInventoryResult>> RevokeInventoryItemAsync(RevokeInventoryItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2751,7 +2686,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Revokes access for up to 25 items across multiple users and characters.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Revokes access for up to 25 items across multiple users and characters.
         /// </summary>
         public static async Task<PlayFabResult<RevokeInventoryItemsResult>> RevokeInventoryItemsAsync(RevokeInventoryItemsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -2943,90 +2879,6 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Sets the custom data of the indicated Game Server Instance
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<SetGameServerInstanceDataResult>> SetGameServerInstanceDataAsync(SetGameServerInstanceDataRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/SetGameServerInstanceData", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<SetGameServerInstanceDataResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<SetGameServerInstanceDataResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<SetGameServerInstanceDataResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Set the state of the indicated Game Server Instance.
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<SetGameServerInstanceStateResult>> SetGameServerInstanceStateAsync(SetGameServerInstanceStateRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/SetGameServerInstanceState", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<SetGameServerInstanceStateResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<SetGameServerInstanceStateResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<SetGameServerInstanceStateResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Set custom tags for the specified Game Server Instance
-        /// </summary>
-        [Obsolete("No longer available", false)]
-        public static async Task<PlayFabResult<SetGameServerInstanceTagsResult>> SetGameServerInstanceTagsAsync(SetGameServerInstanceTagsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? PlayFabSettings.staticPlayer;
-            var requestSettings = PlayFabSettings.staticSettings;
-            if (requestSettings.DeveloperSecretKey == null) throw new PlayFabException(PlayFabExceptionCode.DeveloperKeyNotSet, "DeveloperSecretKey must be set in your local or global settings to call this method");
-
-
-            var httpResult = await PlayFabHttp.DoPost("/Server/SetGameServerInstanceTags", request, "X-SecretKey", requestSettings.DeveloperSecretKey, extraHeaders);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<SetGameServerInstanceTagsResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<SetGameServerInstanceTagsResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<SetGameServerInstanceTagsResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
         /// Sets the player's secret if it is not already set. Player secrets are used to sign API requests. To reset a player's
         /// secret use the Admin or Server API method SetPlayerSecret.
         /// </summary>
@@ -3136,8 +2988,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Decrements the character's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-        /// balance negative with this API.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Decrements the character's balance of the specified virtual currency by the stated amount. It is possible to
+        /// make a VC balance negative with this API.
         /// </summary>
         public static async Task<PlayFabResult<ModifyCharacterVirtualCurrencyResult>> SubtractCharacterVirtualCurrencyAsync(SubtractCharacterVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3164,8 +3017,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-        /// balance negative with this API.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make
+        /// a VC balance negative with this API.
         /// </summary>
         public static async Task<PlayFabResult<ModifyUserVirtualCurrencyResult>> SubtractUserVirtualCurrencyAsync(SubtractUserVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3354,9 +3208,10 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Opens a specific container (ContainerItemInstanceId), with a specific key (KeyItemInstanceId, when required), and
-        /// returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses >
-        /// 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Opens a specific container (ContainerItemInstanceId), with a specific key (KeyItemInstanceId, when
+        /// required), and returns the contents of the opened container. If the container (and key when relevant) are consumable
+        /// (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
         /// </summary>
         public static async Task<PlayFabResult<UnlockContainerItemResult>> UnlockContainerInstanceAsync(UnlockContainerInstanceRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3383,9 +3238,10 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Searches Player or Character inventory for any ItemInstance matching the given CatalogItemId, if necessary unlocks it
-        /// using any appropriate key, and returns the contents of the opened container. If the container (and key when relevant)
-        /// are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Searches Player or Character inventory for any ItemInstance matching the given CatalogItemId, if necessary
+        /// unlocks it using any appropriate key, and returns the contents of the opened container. If the container (and key when
+        /// relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of
         /// ConsumeItem.
         /// </summary>
         public static async Task<PlayFabResult<UnlockContainerItemResult>> UnlockContainerItemAsync(UnlockContainerItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -3687,7 +3543,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Updates the key-value pair data tagged to the specified item, which is read-only from the client.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Updates the key-value pair data tagged to the specified item, which is read-only from the client.
         /// </summary>
         public static async Task<PlayFabResult<EmptyResponse>> UpdateUserInventoryItemCustomDataAsync(UpdateUserInventoryItemDataRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {

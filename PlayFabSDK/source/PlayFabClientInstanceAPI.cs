@@ -225,7 +225,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Increments the user's balance of the specified virtual currency by the stated amount
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Increments the user's balance of the specified virtual currency by the stated amount
         /// </summary>
         public async Task<PlayFabResult<ModifyUserVirtualCurrencyResult>> AddUserVirtualCurrencyAsync(AddUserVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -331,8 +332,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and virtual
-        /// currency balances as appropriate
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and
+        /// virtual currency balances as appropriate
         /// </summary>
         public async Task<PlayFabResult<ConfirmPurchaseResult>> ConfirmPurchaseAsync(ConfirmPurchaseRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -358,7 +360,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
+        /// inventory.
         /// </summary>
         public async Task<PlayFabResult<ConsumeItemResult>> ConsumeItemAsync(ConsumeItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -625,7 +629,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
         /// </summary>
         public async Task<PlayFabResult<GetCatalogItemsResult>> GetCatalogItemsAsync(GetCatalogItemsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -677,7 +682,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the specified character's current inventory of virtual goods
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the specified character's current inventory of virtual goods
         /// </summary>
         public async Task<PlayFabResult<GetCharacterInventoryResult>> GetCharacterInventoryAsync(GetCharacterInventoryRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -812,33 +818,6 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Get details about all current running game servers matching the given parameters.
-        /// </summary>
-        [Obsolete("Use 'MultiplayerServer/ListMultiplayerServers' instead", false)]
-        public async Task<PlayFabResult<CurrentGamesResult>> GetCurrentGamesAsync(CurrentGamesRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? authenticationContext;
-            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
-            if (requestContext.ClientSessionTicket == null) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn, "Must be logged in to call this method");
-
-            var httpResult = await PlayFabHttp.DoPost("/Client/GetCurrentGames", request, "X-Authorization", requestContext.ClientSessionTicket, extraHeaders, requestSettings);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<CurrentGamesResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<CurrentGamesResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<CurrentGamesResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
         /// Retrieves a list of ranked friends of the current player for the given statistic, starting from the indicated point in
         /// the leaderboard
         /// </summary>
@@ -917,33 +896,6 @@ namespace PlayFab
             var result = resultData.data;
 
             return new PlayFabResult<GetFriendsListResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
-        /// Get details about the regions hosting game servers matching the given parameters.
-        /// </summary>
-        [Obsolete("Use 'MultiplayerServer/ListMultiplayerServers' instead", false)]
-        public async Task<PlayFabResult<GameServerRegionsResult>> GetGameServerRegionsAsync(GameServerRegionsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? authenticationContext;
-            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
-            if (requestContext.ClientSessionTicket == null) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn, "Must be logged in to call this method");
-
-            var httpResult = await PlayFabHttp.DoPost("/Client/GetGameServerRegions", request, "X-Authorization", requestContext.ClientSessionTicket, extraHeaders, requestSettings);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<GameServerRegionsResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<GameServerRegionsResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<GameServerRegionsResult> { Result = result, CustomData = customData };
         }
 
         /// <summary>
@@ -1052,9 +1004,10 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the client
-        /// completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the client to
-        /// create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the
+        /// client completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the
+        /// client to create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
         /// </summary>
         public async Task<PlayFabResult<GetPaymentTokenResult>> GetPaymentTokenAsync(GetPaymentTokenRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1665,8 +1618,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that are still
-        /// active.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that
+        /// are still active.
         /// </summary>
         public async Task<PlayFabResult<GetPurchaseResult>> GetPurchaseAsync(GetPurchaseRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1721,7 +1675,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the set of items defined for the specified store, including all prices defined
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the set of items defined for the specified store, including all prices defined
         /// </summary>
         public async Task<PlayFabResult<GetStoreItemsResult>> GetStoreItemsAsync(GetStoreItemsRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -1902,7 +1857,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Retrieves the user's current inventory of virtual goods
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Retrieves the user's current inventory of virtual goods
         /// </summary>
         public async Task<PlayFabResult<GetUserInventoryResult>> GetUserInventoryAsync(GetUserInventoryRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3051,38 +3007,6 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Attempts to locate a game session matching the given parameters. If the goal is to match the player into a specific
-        /// active session, only the LobbyId is required. Otherwise, the BuildVersion, GameMode, and Region are all required
-        /// parameters. Note that parameters specified in the search are required (they are not weighting factors). If a slot is
-        /// found in a server instance matching the parameters, the slot will be assigned to that player, removing it from the
-        /// availabe set. In that case, the information on the game session will be returned, otherwise the Status returned will be
-        /// GameNotFound.
-        /// </summary>
-        [Obsolete("Use 'Match/CreateMatchmakingTicket' instead", false)]
-        public async Task<PlayFabResult<MatchmakeResult>> MatchmakeAsync(MatchmakeRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            await new PlayFabUtil.SynchronizationContextRemover();
-
-            var requestContext = request?.AuthenticationContext ?? authenticationContext;
-            var requestSettings = apiSettings ?? PlayFabSettings.staticSettings;
-            if (requestContext.ClientSessionTicket == null) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn, "Must be logged in to call this method");
-
-            var httpResult = await PlayFabHttp.DoPost("/Client/Matchmake", request, "X-Authorization", requestContext.ClientSessionTicket, extraHeaders, requestSettings);
-            if (httpResult is PlayFabError)
-            {
-                var error = (PlayFabError)httpResult;
-                PlayFabSettings.GlobalErrorHandler?.Invoke(error);
-                return new PlayFabResult<MatchmakeResult> { Error = error, CustomData = customData };
-            }
-
-            var resultRawJson = (string)httpResult;
-            var resultData = PluginManager.GetPlugin<ISerializerPlugin>(PluginContract.PlayFab_Serializer).DeserializeObject<PlayFabJsonSuccess<MatchmakeResult>>(resultRawJson);
-            var result = resultData.data;
-
-            return new PlayFabResult<MatchmakeResult> { Result = result, CustomData = customData };
-        }
-
-        /// <summary>
         /// Opens a new outstanding trade. Note that a given item instance may only be in one open trade at a time.
         /// </summary>
         public async Task<PlayFabResult<OpenTradeResponse>> OpenTradeAsync(OpenTradeRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -3109,7 +3033,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Selects a payment option for purchase order created via StartPurchase
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Selects a payment option for purchase order created via StartPurchase
         /// </summary>
         public async Task<PlayFabResult<PayForPurchaseResult>> PayForPurchaseAsync(PayForPurchaseRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3135,8 +3060,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as well as what
-        /// the client believes the price to be. This lets the server fail the purchase if the price has changed.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as
+        /// well as what the client believes the price to be. This lets the server fail the purchase if the price has changed.
         /// </summary>
         public async Task<PlayFabResult<PurchaseItemResult>> PurchaseItemAsync(PurchaseItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3162,7 +3088,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
         /// Economy->Catalogs tab in the PlayFab Game Manager.
         /// </summary>
         public async Task<PlayFabResult<RedeemCouponResult>> RedeemCouponAsync(RedeemCouponRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -3242,7 +3169,7 @@ namespace PlayFab
 
         /// <summary>
         /// Registers a new Playfab user account, returning a session identifier that can subsequently be used for API calls which
-        /// require an authenticated user. You must supply either a username or an email address.
+        /// require an authenticated user. You must supply a username and an email address.
         /// </summary>
         public async Task<PlayFabResult<RegisterPlayFabUserResult>> RegisterPlayFabUserAsync(RegisterPlayFabUserRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3458,7 +3385,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Restores all in-app purchases based on the given restore receipt
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Restores all in-app purchases based on the given restore receipt
         /// </summary>
         public async Task<PlayFabResult<RestoreIOSPurchasesResult>> RestoreIOSPurchasesAsync(RestoreIOSPurchasesRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3590,7 +3518,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Creates an order for a list of items from the title catalog
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Creates an order for a list of items from the title catalog
         /// </summary>
         public async Task<PlayFabResult<StartPurchaseResult>> StartPurchaseAsync(StartPurchaseRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -3616,8 +3545,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-        /// balance negative with this API.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make
+        /// a VC balance negative with this API.
         /// </summary>
         public async Task<PlayFabResult<ModifyUserVirtualCurrencyResult>> SubtractUserVirtualCurrencyAsync(SubtractUserVirtualCurrencyRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -4087,9 +4017,10 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Opens the specified container, with the specified key (when required), and returns the contents of the opened container.
-        /// If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented,
-        /// consistent with the operation of ConsumeItem.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Opens the specified container, with the specified key (when required), and returns the contents of the
+        /// opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will
+        /// be decremented, consistent with the operation of ConsumeItem.
         /// </summary>
         public async Task<PlayFabResult<UnlockContainerItemResult>> UnlockContainerInstanceAsync(UnlockContainerInstanceRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -4115,8 +4046,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it using an
-        /// appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it
+        /// using an appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
         /// consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
         /// </summary>
         public async Task<PlayFabResult<UnlockContainerItemResult>> UnlockContainerItemAsync(UnlockContainerItemRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -4357,8 +4289,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches the
-        /// purchased catalog item
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches
+        /// the purchased catalog item
         /// </summary>
         public async Task<PlayFabResult<ValidateAmazonReceiptResult>> ValidateAmazonIAPReceiptAsync(ValidateAmazonReceiptRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -4384,7 +4317,8 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Validates a Google Play purchase and gives the corresponding item to the player.
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Validates a Google Play purchase and gives the corresponding item to the player.
         /// </summary>
         public async Task<PlayFabResult<ValidateGooglePlayPurchaseResult>> ValidateGooglePlayPurchaseAsync(ValidateGooglePlayPurchaseRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -4410,8 +4344,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the purchased
-        /// catalog item
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the
+        /// purchased catalog item
         /// </summary>
         public async Task<PlayFabResult<ValidateIOSReceiptResult>> ValidateIOSReceiptAsync(ValidateIOSReceiptRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -4437,8 +4372,9 @@ namespace PlayFab
         }
 
         /// <summary>
-        /// Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it matches the
-        /// purchased catalog item
+        /// _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+        /// version 2._ Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it
+        /// matches the purchased catalog item
         /// </summary>
         public async Task<PlayFabResult<ValidateWindowsReceiptResult>> ValidateWindowsStoreReceiptAsync(ValidateWindowsReceiptRequest request, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
